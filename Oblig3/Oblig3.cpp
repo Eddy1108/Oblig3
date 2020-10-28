@@ -8,14 +8,6 @@
 #include "LockScreen.h"
 #include "Battleship.h"
 
-int letterToNumber(char letter) // only big letters
-{
-    return static_cast<int>(letter) - 65;
-}
-
-
-
-
 int main()
 {
     //task1();

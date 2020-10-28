@@ -37,17 +37,17 @@ void printLockBoard(char array[6][10])
 
 void task1(bool setPassword = false)
 {
-    std::ifstream inf{ "Password.dat" };    //read from the file
+    std::ifstream inf{ "Password.txt" };    //read from the file
 
     if (!inf)
     {
-        std::cout << "UNABLE TO READ FILE, EXITING PROGRAM";
-        exit(0);
+        setPassword = true;
     }
 
     std::string fileString;         //temp string to hold string from file
     inf >> fileString;              //get the string from file
     std::vector<char> lockPassword(fileString.begin(), fileString.end());       //save the string as a vector
+    inf.close();
     int moves{ 0 };
 
 
@@ -88,7 +88,7 @@ void task1(bool setPassword = false)
             printVector(lockInput);
 
             if (setPassword)
-                std::cout << "\n\nPress [Q] to save password...\n";
+                std::cout << "\n\nPlease input your password\nPress [Q] to save password...\n";
 
             if (compareVectors(lockInput, lockPassword) && setPassword == false)
             {
@@ -128,9 +128,10 @@ void task1(bool setPassword = false)
                 break;
             case 'Q': case 'q':
                 if (setPassword) {
-                    std::ofstream outf{ "Password.dat" };
+                    std::ofstream outf{ "Password.txt" };
                     std::string save(lockInput.begin(), lockInput.end());
                     outf << save;
+                    outf.close();
                     std::cout << "Password saved!\n";
                     system("pause");
                     return;
