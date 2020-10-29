@@ -25,7 +25,7 @@ int main()
             task1(true);
             break;
         case '2':
-            task2();
+            play();
             break;
         case '3':
             exit(0);

@@ -13,28 +13,35 @@ int letterToNumber(char letter) // only big letters
 	return (static_cast<int>(letter) - 64);
 }
 
-void shoot(char board[M][N]) 
+void shoot(char board[M][N], char playerBoard[M][N], int &shots, int &hits) 
 {
 	std::string input{ "" };
 
 	std::cout << "\nWhere would you like to shoot? (Example: B2)\nInput: ";
 	std::cin >> input;
 
-	board[input.at(1) - 48][letterToNumber(input.at(0))] = MISS;
-	
-	//if(board[input.at(1)][letterToNumber(input.at(0))])
+	int tempR = input.at(1) - 48;
+	int tempC = letterToNumber(input.at(0));
 
-	
+	if (board[tempR][tempC] == SHIP) {
+		playerBoard[tempR][tempC] = HIT;
+		hits++;
+	}
+	else {
+		playerBoard[tempR][tempC] = MISS;
+	}
+
+	shots++;;
 }
 
 int randomRow()		//M
 {
-	return rand() % 6 + 1;
+	return rand() % M + 1;
 }
 
 int randomColumn()		//N
 {
-	return rand() % 6 + 1;
+	return rand() % N + 1;
 }
 
 void makeBoard(int numberOfShips, char board[M][N])
@@ -87,20 +94,33 @@ void printBoard(char board[M][N])
 }
 
 
-void task2() 
+void play() 
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
-	int numberOfHits;
-	int numberOfShots;
-	char board[M][N]{}; // 2d array with M rows and N columns
+	int numberOfShips{ 6 };
+	int numberOfHits{ 0 };
+	int numberOfShots{ 0 };
+	int totalShots{ 15 };
+	char board[M][N]{};
+	char playerBoard[M][N];
+
 	makeEmptyBoard(board);
-	makeBoard(6, board);
+	makeEmptyBoard(playerBoard);
+	makeBoard(numberOfShips, board);
 
 	while (true) {
 		system("cls");
-
 		printBoard(board);
-		shoot(board);
-		//system("pause");
+		printBoard(playerBoard);
+
+		std::cout << "\nShots: [" << numberOfShots << "]\tHits: [" << numberOfHits << "] \nShots left: [" << totalShots << "]";
+		if (totalShots <= 0 || numberOfHits == numberOfShips) {
+			break;
+		}
+		shoot(board, playerBoard, numberOfShots, numberOfHits);
+		totalShots--;
+		
 	}
+	std::cout << "\n\nGame Over!\n";
+	system("pause");
 }
