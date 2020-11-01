@@ -44,6 +44,56 @@ int randomColumn()		//N
 	return rand() % N + 1;
 }
 
+void makeBoard3(int numberOfShips, char board[M][N]) 
+{
+	int dir{ 9 };	//0 = horizontal, 1 = vertical
+	int tempR{ 0 };
+	int tempC{ 0 };
+
+	for (int i = 0; i < numberOfShips; i++)
+	{
+		bool placed = false;
+
+		while (!placed) {
+			dir = rand() % 2 + 1;
+			tempR = randomRow();
+			tempC = randomColumn();
+			switch (dir)
+			{
+			case 1:
+				if (tempR > (M - 3)) {
+					tempR = (M - 3);
+				}
+				if (board[tempR][tempC] != SHIP && board[tempR + 1][tempC] != SHIP && board[tempR + 2][tempC] != SHIP)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						board[tempR + j][tempC] = SHIP;
+						
+					}
+					placed = true;
+				}
+
+				break;
+			case 2:
+				if (tempC > (N - 3)) {
+					tempC = (N - 3);
+				}
+				if (board[tempR][tempC] != SHIP && board[tempR][tempC + 1] != SHIP && board[tempR][tempC + 2] != SHIP)
+				{
+					for (int j = 0; j < 3; j++)
+					{
+						board[tempR][tempC + j] = SHIP;
+
+					}
+					placed = true;
+				}
+				break;
+			}
+		}
+	}
+}
+
 void makeBoard(int numberOfShips, char board[M][N])
 {
 	int tempR;
@@ -97,7 +147,7 @@ void printBoard(char board[M][N])
 void play() 
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
-	int numberOfShips{ 6 };
+	int numberOfShips{ 3 };
 	int numberOfHits{ 0 };
 	int numberOfShots{ 0 };
 	int totalShots{ 15 };
@@ -106,7 +156,8 @@ void play()
 
 	makeEmptyBoard(board);
 	makeEmptyBoard(playerBoard);
-	makeBoard(numberOfShips, board);
+	//makeBoard(numberOfShips, board);
+	makeBoard3(numberOfShips, board);
 
 	while (true) {
 		system("cls");
