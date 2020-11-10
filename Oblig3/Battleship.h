@@ -44,6 +44,24 @@ int randomColumn()		//N
 	return rand() % N + 1;
 }
 
+void AI(char board[M][N], int &hits)
+{
+	while (true) 
+	{
+		int tempR = randomRow();
+		int tempC = randomColumn();
+		if (board[tempR][tempC] == SHIP) {
+			board[tempR][tempC] = HIT;
+			hits++;
+			break;
+		}
+		else if (board[tempR][tempC] == BLANK) {
+			board[tempR][tempC] = MISS;
+			break;
+		}
+	}
+}
+
 void makeBoard3(int numberOfShips, char board[M][N]) 
 {
 	int dir{ 9 };	//0 = horizontal, 1 = vertical
@@ -126,7 +144,16 @@ void makeEmptyBoard(char board[M][N])
 
 void writeLetters() 
 {
-	std::cout << " -------------\n |A|B|C|D|E|F|\n\n";
+	for (int i = 0; i < M + 1; i++)
+	{
+		std::cout << "--";
+	}
+	std::cout << std::endl << " ";
+	for (int i = 0; i < M; i++)
+	{
+		std::cout << '|' << (char)('A' + i);
+	}
+	std::cout << "|\n\n";
 }
 
 void printBoard(char board[M][N]) 
@@ -150,28 +177,49 @@ void play()
 	int numberOfShips{ 3 };
 	int numberOfHits{ 0 };
 	int numberOfShots{ 0 };
-	int totalShots{ 15 };
+	int totalShots{ (int)((M * N) * 0.75) };
+	int AIhits{ 0 };
 	char board[M][N]{};
 	char playerBoard[M][N];
+	char AIboard[M][N];
 
 	makeEmptyBoard(board);
+	makeEmptyBoard(AIboard);
 	makeEmptyBoard(playerBoard);
-	//makeBoard(numberOfShips, board);
+	
+	//makeBoard(numberOfShips, board);		////single unit ships
 	makeBoard3(numberOfShips, board);
+	makeBoard3(numberOfShips, AIboard);
 
 	while (true) {
 		system("cls");
-		printBoard(board);
+		std::cout << "AI Board: \n";
 		printBoard(playerBoard);
+		std::cout << "\nYour Board: \n";
+		printBoard(AIboard);
 
 		std::cout << "\nShots: [" << numberOfShots << "]\tHits: [" << numberOfHits << "] \nShots left: [" << totalShots << "]";
-		if (totalShots <= 0 || numberOfHits == numberOfShips) {
+
+		
+		if (totalShots <= 0 || numberOfHits == numberOfShips * 3 || AIhits == numberOfShips * 3) {
+			if (AIhits == numberOfShips * 3) {
+				std::cout << "\nThe AI Wins!\n";
+			}
+			if (totalShots <= 0) {
+				std::cout << "\nYou've run out of shots!";
+			}
+			if (numberOfHits == numberOfShips * 3) {
+				std::cout << "\nYou sunk all the ships!";
+			}
+			
 			break;
 		}
 		shoot(board, playerBoard, numberOfShots, numberOfHits);
 		totalShots--;
+		AI(AIboard, AIhits);
 		
 	}
 	std::cout << "\n\nGame Over!\n";
 	system("pause");
+	
 }
