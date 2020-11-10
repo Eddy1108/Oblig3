@@ -50,7 +50,6 @@ void task1(bool setPassword = false)
     inf.close();
     int moves{ 0 };
 
-
     while (true) {
         std::vector<char> lockInput{};
         int posX{ 1 };

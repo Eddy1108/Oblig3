@@ -64,7 +64,7 @@ void AI(char board[M][N], int &hits)
 
 void makeBoard3(int numberOfShips, char board[M][N]) 
 {
-	int dir{ 9 };	//0 = horizontal, 1 = vertical
+	int dir{ 0 };	//1 = horizontal, 2 = vertical
 	int tempR{ 0 };
 	int tempC{ 0 };
 

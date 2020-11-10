@@ -10,7 +10,7 @@
 
 int main()
 {
-    //task1();
+    task1();
 
     while (true) 
     {
