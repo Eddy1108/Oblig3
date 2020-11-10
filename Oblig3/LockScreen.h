@@ -82,7 +82,7 @@ void task1(bool setPassword = false)
             if (!setPassword)                       //If youre not setting the password, show how many moves remain
                 std::cout << "Moves left: " << moves << std::endl;
 
-            printVector(lockPassword);  //DEBUG
+            //printVector(lockPassword);  //DEBUG
             std::cout << "Input: ";
             printVector(lockInput);
 

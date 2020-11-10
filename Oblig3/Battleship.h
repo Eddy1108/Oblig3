@@ -170,7 +170,6 @@ void printBoard(char board[M][N])
 	writeLetters();
 }
 
-
 void play() 
 {
 	srand(static_cast<unsigned int>(time(nullptr)));
